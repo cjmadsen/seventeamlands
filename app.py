@@ -26,9 +26,9 @@ TOKENS = {'89b638c0524d4d688b56ff77add5f79c':'Tom',
           'baef0dbf8c8f4d978ef962ea9a0277f3':'Chris'}
 
 def scrape_results():
+    s=Service(ChromeDriverManager().install())
     master=[]
     for z in TOKENS.keys():
-        s=Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=s)
         driver.implicitly_wait(100)
         driver.get("https://www.17lands.com/user_history/{}".format(z))
@@ -76,4 +76,4 @@ def scrape_results():
     return df
 
 if __name__ == '__main__':
-    app.run()  # run our Flask app
+    app.run()  # run the Flask app
