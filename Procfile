@@ -1,1 +1,1 @@
-web: gunicorn app:app --log-level=debug --capture-output=true
+web: gunicorn app:app --log-level=debug --capture-output
