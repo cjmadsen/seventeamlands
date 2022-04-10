@@ -23,9 +23,9 @@ class Results(Resource):
 
 api.add_resource(Results, '/results')  # add endpoint
 
-TOKENS = {'89b638c0524d4d688b56ff77add5f79c':'Tom',
-          'bc2862f420844334a08e36b47119df75':'Sammy',
-          'baef0dbf8c8f4d978ef962ea9a0277f3':'Chris'}
+TOKENS = {'89b638c0524d4d688b56ff77add5f79c':'Tom'}
+        #   'bc2862f420844334a08e36b47119df75':'Sammy',
+        #   'baef0dbf8c8f4d978ef962ea9a0277f3':'Chris'}
 
 def scrape_results():
     master=[]
@@ -51,9 +51,7 @@ def scrape_results():
             raise Exception
         sleep(1)
         html = driver.execute_script("return document.getElementsByTagName('tbody')[0].innerHTML")
-        print(html)
         soup = BeautifulSoup(html, "html.parser")
-        print(len(soup.find_all('tr')))
         for x in range(len(soup.find_all('tr'))):
             tr= soup.find_all('tr')[x] #tr is the tag the deliniates distinct drafts
             td=tr.find_all('td') #td gives us the individual parts. because td has type Resultset, we can't find_all('a') and have to use regex
