@@ -1,6 +1,6 @@
 django
 django-heroku
-flask==1.1.0
+Flask==2.1.0
 gunicorn==20.0.4
 requests==2.25.1
 flask_restful

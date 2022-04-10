@@ -18,7 +18,7 @@ class Results(Resource):
     def get(self):
         data = scrape_results()  # scrape results
         return {'data': data.to_json()}, 200  # return data as JSON object and 200 OK
-    
+
 api.add_resource(Results, '/results')  # add endpoint
 
 TOKENS = {'89b638c0524d4d688b56ff77add5f79c':'Tom',
@@ -28,8 +28,19 @@ TOKENS = {'89b638c0524d4d688b56ff77add5f79c':'Tom',
 def scrape_results():
     master=[]
     for z in TOKENS.keys():
-        s=Service(ChromeDriverManager().install())
-        driver = webdriver.Chrome(service=s)
+        if os.environ.get("CHROMEDRIVER_PATH"):
+             #Chrome driver options
+            chrome_options = webdriver.ChromeOptions()
+            # Environment variable set in Heroku
+            chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+            # Use headless so it saves memory and runtime by not launching a UI view of the browser
+            chrome_options.add_argument("--headless")
+            chrome_options.add_argument("--disable-dev-shm-usage")
+            chrome_options.add_argument("--no-sandbox")
+            driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+        else:
+            s=Service(ChromeDriverManager().install())
+            driver = webdriver.Chrome(service=s)
         driver.implicitly_wait(100)
         driver.get("https://www.17lands.com/user_history/{}".format(z))
         sleep(10)
