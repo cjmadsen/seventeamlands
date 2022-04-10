@@ -43,9 +43,9 @@ def scrape_results():
         else:
             s=Service(ChromeDriverManager().install())
             driver = webdriver.Chrome(service=s)
-        driver.implicitly_wait(100)
+        driver.implicitly_wait(10)
         driver.get("https://www.17lands.com/user_history/{}".format(z))
-        sleep(10)
+        sleep(1)
         html = driver.execute_script("return document.getElementsByTagName('tbody')[0].innerHTML")
         soup = BeautifulSoup(html, "html.parser")
         for x in range(len(soup.find_all('tr'))):
