@@ -10,6 +10,7 @@ from time import sleep
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+import os
 
 app = Flask(__name__)
 api = Api(app)
@@ -25,11 +26,17 @@ TOKENS = {'89b638c0524d4d688b56ff77add5f79c':'Tom',
           'bc2862f420844334a08e36b47119df75':'Sammy',
           'baef0dbf8c8f4d978ef962ea9a0277f3':'Chris'}
 
+chrome_options = webdriver.ChromeOptions()
+chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--no-sandbox")
+s=Service(ChromeDriverManager().install())
+
 def scrape_results():
-    s=Service(ChromeDriverManager().install())
     master=[]
     for z in TOKENS.keys():
-        driver = webdriver.Chrome(service=s)
+        driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options, service=s)
         driver.implicitly_wait(100)
         driver.get("https://www.17lands.com/user_history/{}".format(z))
         sleep(10)
