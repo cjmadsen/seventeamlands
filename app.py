@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
 import pandas as pd
@@ -10,6 +11,7 @@ from time import sleep
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+
 
 app = Flask(__name__)
 api = Api(app)
