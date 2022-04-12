@@ -32,14 +32,12 @@ def google_sheets_upload(dataframe):
     filename = os.path.join(app.static_folder, 'google_creds.json')
     with open(filename) as json_file:
         creds = json.load(json_file)
-    print(creds)
     creds["project_id"] = os.environ.get("PROJECT_ID")
     creds["private_key_id"] = os.environ.get("PRIVATE_KEY_ID")
     creds["private_key"] = os.environ.get("PRIVATE_KEY").replace("\\n", "\n")
     creds["client_email"] = os.environ.get("CLIENT_EMAIL")
     creds["client_id"] = os.environ.get("CLIENT_ID")
     creds["client_x509_cert_url"] = os.environ.get("CERT_URL")
-    print(creds)
 
     gc = gspread.service_account_from_dict(creds)
     sht1 = gc.open_by_key(os.environ.get("SPREADSHEET_KEY"))
