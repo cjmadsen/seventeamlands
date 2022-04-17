@@ -26,8 +26,8 @@ def scrape_results(tokens):
                     continue
                 data=list(filter(None, data)) #remove Nones from the list
                 #data.pop(3) #removes Format
-                data.insert(3,data[2][-1]) #adds losses after record
-                data[2]=data[2][0] #converts record into wins
+                data.insert(3,int(data[2][-1])) #adds losses after record
+                data[2]=int(data[2][0]) #converts record into wins
                 if len(data) != 7:
                     continue
                 try:
@@ -52,13 +52,14 @@ def scrape_results(tokens):
 
 def df_ops(master):
     df = pd.DataFrame(master, columns = ['Date','Set','Wins','Losses','Format','Start Rank', 'End Rank', 'Colors', 'Links', 'Pilot'])
-    df['Draft'] = [df['Links'][x]['Draft'] if 'Draft' in df['Links'][x].keys() else None for x in range(len(df))]
-    df['Pool'] = [df['Links'][x]['Pool'] if 'Pool' in df['Links'][x].keys() else None for x in range(len(df))]
-    df['Details'] = [df['Links'][x]['Details'] if 'Details' in df['Links'][x].keys() else None for x in range(len(df))]
-    df['Deck 1'] = [df['Links'][x]['Deck 1'] if 'Deck 1' in df['Links'][x].keys() else None for x in range(len(df))]
-    df['Deck 2'] = [df['Links'][x]['Deck 2'] if 'Deck 2' in df['Links'][x].keys() else None for x in range(len(df))]
-    df['Deck 3'] = [df['Links'][x]['Deck 3'] if 'Deck 3' in df['Links'][x].keys() else None for x in range(len(df))]
-    df['Deck 4'] = [df['Links'][x]['Deck 4'] if 'Deck 4' in df['Links'][x].keys() else None for x in range(len(df))]
-    df['Deck 5'] = [df['Links'][x]['Deck 5'] if 'Deck 5' in df['Links'][x].keys() else None for x in range(len(df))]
+    df['Draft'] = [df['Links'][x]['Draft'][:-1] if 'Draft' in df['Links'][x].keys() else None for x in range(len(df))]
+    df['Pool'] = [df['Links'][x]['Pool'][:-1] if 'Pool' in df['Links'][x].keys() else None for x in range(len(df))]
+    df['Details'] = [df['Links'][x]['Details'][:-1] if 'Details' in df['Links'][x].keys() else None for x in range(len(df))]
+    df['Deck 1'] = [df['Links'][x]['Deck 1'][:-1] if 'Deck 1' in df['Links'][x].keys() else None for x in range(len(df))]
+    df['Deck 2'] = [df['Links'][x]['Deck 2'][:-1] if 'Deck 2' in df['Links'][x].keys() else None for x in range(len(df))]
+    df['Deck 3'] = [df['Links'][x]['Deck 3'][:-1] if 'Deck 3' in df['Links'][x].keys() else None for x in range(len(df))]
+    df['Deck 4'] = [df['Links'][x]['Deck 4'][:-1] if 'Deck 4' in df['Links'][x].keys() else None for x in range(len(df))]
+    df['Deck 5'] = [df['Links'][x]['Deck 5'][:-1] if 'Deck 5' in df['Links'][x].keys() else None for x in range(len(df))]
     df.drop(columns=['Links'], inplace=True)
+    df = df[['Set'] == 'NEO'].copy()
     utils.google_sheets_upload(df)

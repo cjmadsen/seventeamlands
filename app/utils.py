@@ -41,5 +41,5 @@ def google_sheets_upload(dataframe):
 
     gc = gspread.service_account_from_dict(creds)
     sht1 = gc.open_by_key(os.environ.get("SPREADSHEET_KEY"))
-    worksheet = sht1.get_worksheet(0)
+    worksheet = sht1.worksheet('Team Log')
     worksheet.update([dataframe.columns.values.tolist()] + dataframe.values.tolist())
