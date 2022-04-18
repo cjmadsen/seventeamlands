@@ -61,5 +61,5 @@ def df_ops(master):
     df['Deck 4'] = [df['Links'][x]['Deck 4'][:-1] if 'Deck 4' in df['Links'][x].keys() else None for x in range(len(df))]
     df['Deck 5'] = [df['Links'][x]['Deck 5'][:-1] if 'Deck 5' in df['Links'][x].keys() else None for x in range(len(df))]
     df.drop(columns=['Links'], inplace=True)
-    df = df[['Set'] == 'NEO'].copy()
+    df = df[df['Set'] == 'NEO'].copy()
     utils.google_sheets_upload(df)
