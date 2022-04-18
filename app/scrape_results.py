@@ -48,6 +48,7 @@ def scrape_results(tokens):
         resp_list.append(resp)
         driver.close()
         df_ops(master)
+    print(resp_list)
     return resp_list
 
 def df_ops(master):
