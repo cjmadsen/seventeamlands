@@ -44,7 +44,7 @@ def scrape_results(tokens):
                 data.append(tokens[z])
                 master.append(data)
         except Exception as e:
-            resp = {'status_code': 400, 'msg': f"FAIL for {tokens[token]}", 'error': str(e)}
+            resp = {'status_code': 400, 'msg': f"FAIL for {tokens[z]}", 'error': str(e)}
         resp_list.append(resp)
         driver.close()
         df_ops(master)
