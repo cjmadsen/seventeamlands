@@ -5,6 +5,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 import gspread
+from gspread_dataframe import get_as_dataframe, set_with_dataframe
+import xlsxwriter
 
 def create_driver():
     if os.environ.get("CHROMEDRIVER_PATH"):
@@ -43,9 +45,12 @@ def google_sheets_upload(dataframe, sheet_name, sheet_range=None):
         gc = gspread.service_account_from_dict(creds)
         sht1 = gc.open_by_key(os.environ.get("SPREADSHEET_KEY"))
         worksheet = sht1.worksheet(sheet_name)
+        row, col = xlsxwriter.utility.xl_cell_to_rowcol(sheet_range)
         if sheet_range is not None:
-            worksheet.update(sheet_range, [dataframe.columns.values.tolist()] + dataframe.values.tolist())
+            set_with_dataframe(worksheet, dataframe, row=row, col=col)
+            # worksheet.update(sheet_range, [dataframe.columns.values.tolist()] + dataframe.values.tolist())
         else:
-            worksheet.update([dataframe.columns.values.tolist()] + dataframe.values.tolist())
+            # worksheet.update([dataframe.index.name] + dataframe.index.values.tolist())
+            set_with_dataframe(worksheet, dataframe)
     except Exception as e:
         raise Exception(f"Error at sheets data upload: {e}")
