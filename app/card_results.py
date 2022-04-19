@@ -90,7 +90,6 @@ def card_stats(deck_set, release_date=None):
                 'win_rate','win_rate_delta','win_rate_pairs',
                 'opening_hand_win_rate','open_improvement_win_rate','open_or_draw','never_drawn_win_rate']]
     master.insert(0, "name", orig["name"].tolist())
-    print(master.info(verbose=True))
     utils.google_sheets_upload(master, 'Card Stats')
     yield master
 #worksheet = sht1.worksheet('Card Stats')
