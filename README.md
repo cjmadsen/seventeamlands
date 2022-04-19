@@ -71,3 +71,15 @@ Here is a list of those variable in caps which can be found on heroku under Sett
 
 Also remember to share the google sheet with hte client email stored as a variable.
 
+## Update 18/04/22
+
+- Added the endpoint /metagame_card_stats
+- It contains two parameters:
+  - set
+  - release_date (optional)
+- The set is the deck name and release date is in the format YYYY-MM-DD
+
+eg. /metagame_card_stats?set=neo&release_date=2022-03-10
+
+This endpoint runs the get_metagame, get_format_history and the card_stats methods.
+

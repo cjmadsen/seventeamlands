@@ -28,7 +28,7 @@ def get_tokens():
     with open(filename) as json_file:
         return json.load(json_file)
 
-def google_sheets_upload(dataframe):
+def google_sheets_upload(dataframe, sheet_name, sheet_range=None):
     filename = os.path.join(app.static_folder, 'google_creds.json')
     with open(filename) as json_file:
         creds = json.load(json_file)
@@ -39,7 +39,13 @@ def google_sheets_upload(dataframe):
     creds["client_id"] = os.environ.get("CLIENT_ID")
     creds["client_x509_cert_url"] = os.environ.get("CERT_URL")
 
-    gc = gspread.service_account_from_dict(creds)
-    sht1 = gc.open_by_key(os.environ.get("SPREADSHEET_KEY"))
-    worksheet = sht1.worksheet('Team Log')
-    worksheet.update([dataframe.columns.values.tolist()] + dataframe.values.tolist())
+    try:
+        gc = gspread.service_account_from_dict(creds)
+        sht1 = gc.open_by_key(os.environ.get("SPREADSHEET_KEY"))
+        worksheet = sht1.worksheet(sheet_name)
+        if sheet_range is not None:
+            worksheet.update(sheet_range, [dataframe.columns.values.tolist()] + dataframe.values.tolist())
+        else:
+            worksheet.update([dataframe.columns.values.tolist()] + dataframe.values.tolist())
+    except Exception as e:
+        raise Exception(f"Error at sheets data upload: {e}")
