@@ -44,10 +44,11 @@ def scrape_results(tokens):
                 data.append(tokens[z])
                 master.append(data)
         except Exception as e:
-            resp = {'status_code': 400, 'msg': f"FAIL for {tokens[token]}", 'error': str(e)}
+            resp = {'status_code': 400, 'msg': f"FAIL for {tokens[z]}", 'error': str(e)}
         resp_list.append(resp)
         driver.close()
         df_ops(master)
+    print(resp_list)
     return resp_list
 
 def df_ops(master):
@@ -62,4 +63,4 @@ def df_ops(master):
     df['Deck 5'] = [df['Links'][x]['Deck 5'][:-1] if 'Deck 5' in df['Links'][x].keys() else None for x in range(len(df))]
     df.drop(columns=['Links'], inplace=True)
     df = df[df['Set'] == 'NEO'].copy()
-    utils.google_sheets_upload(df)
+    utils.google_sheets_upload(df, 'Team Log')
