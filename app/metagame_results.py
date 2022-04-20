@@ -24,7 +24,7 @@ def get_color_pair_data(expansion, endpoint=None, start=None, end=None):
 
 def get_format_history(deck_set,release_date):
     tp = get_color_pair_data(deck_set,start=release_date)
-    utils.google_sheets_upload(tp, 'Team Performance', sheet_range='K2')
+    utils.google_sheets_upload(tp, 'Team Performance', sheet_range='N2')
     yield tp
 
 #worksheet = sht1.worksheet('Team Performance')
